@@ -1,0 +1,9 @@
+[submodule "API/sinaweibopy"]
+	path = API/sinaweibopy
+	url = https://github.com/michaelliao/sinaweibopy.git
+[submodule "API/weibo"]
+	path = API/weibo
+	url = https://github.com/lxyu/weibo.git
+[submodule "simu/weibo_login"]
+	path = simu/weibo_login
+	url = https://github.com/yoyzhou/weibo_login.git
