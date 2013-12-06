@@ -70,11 +70,11 @@ resp = session.get(login_url[0])
 uid = re.findall('"uniqueid":"(\d+)",',resp.content)[0]
 url = "http://weibo.com/u/"+uid
 resp = session.get(url)
-print resp.content
+#print resp.content
 
 url = "http://weibo.com/kaifulee"
 resp = session.get(url)
-print resp.content
+#print resp.content
 
 # Save file to index.html
 file = open('index.html', 'w')
