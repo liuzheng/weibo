@@ -35,5 +35,6 @@ nosetests.xml
 .project
 .pydevproject
 
-# Private Information
+# xxxxx
 *.html
+*.swp
