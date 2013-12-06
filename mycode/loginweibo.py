@@ -72,7 +72,17 @@ url = "http://weibo.com/u/"+uid
 resp = session.get(url)
 print resp.content
 
+url = "http://weibo.com/kaifulee"
+resp = session.get(url)
+print resp.content
+
 # Save file to index.html
 file = open('index.html', 'w')
+file.write(resp.content)
+file.close()
+
+url ="http://weibo.com/p/1035051197161814/weibo?from=page_103505_home&wvr=5.1&mod=weibomore#3639593649753032"
+resp = session.get(url)
+file = open('index1.html','w')
 file.write(resp.content)
 file.close()
