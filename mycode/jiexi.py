@@ -7,7 +7,7 @@
 import re
 # from pyquery import PyQuery as pyq
 
-content = open('index1.html').read()
+content = open('index.html').read()
 # print html
 # htm = pyq(content)
 # pattern = re.compile(content)
@@ -18,7 +18,7 @@ content = open('index1.html').read()
 #single = re.findall(r"WB\_text[^>]*>([^<]*)<\\/div>", weibo[0])
 
 # delete the forward weibo
-tmp = re.findall(r'WB\_media\_expand SW\_fun2 S\_line1 S\_bg1\\">.*?WB\_func clearfix', content)
+tmp = re.findall(r'WB\_media\_expand SW\_fun2 S\_line1 S\_bg1\\">.*?nofollow', content)
 for tmp_r in tmp:
     content = content.replace(tmp_r, 's')
 
@@ -29,11 +29,13 @@ WB_comefrom = re.findall(r'WB\_text[^>]*>.*?nofollow\\">(.*?)<', content)
 WB_like = re.findall(r'WB\_text[^>]*>.*?praised.*?\(([0-9]*)', content)
 WB_pinlun = re.findall(r'WB\_text[^>]*>.*?fl_comment.*?\(([0-9]*)', content)
 WB_forward = re.findall(r'WB\_text[^>]*>.*?fl_forward.*?>.*?\(([0-9]*)', content)
-
+WB_mid = re.findall(r' mid=\\"([0-9]*)', content)
+print len(WB_time)
 # print it
 for i in range(0, len(WB_text)):
     print str(i+1) + '.' + WB_text[i].lstrip('\\n').strip()
-    print 'time:' + WB_time[i]
+    print 'time:' + WB_time[i] 
+    print 'mid:' + WB_mid[i]
     print 'comefrom:' + WB_comefrom[i]
     print 'like:' + WB_like[i]
     print 'forward:' + WB_forward[i]
