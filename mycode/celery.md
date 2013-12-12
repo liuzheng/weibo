@@ -115,3 +115,14 @@ sudo apt-get install rabbitmq-server
 
 > [2011-07-28 23:06:39,081: INFO/MainProcess] Got task from broker: tasks.add[82d8c609-2cac-47e8-be20-eb6a2dc502d6]
 > [2011-07-28 23:06:39,120: INFO/MainProcess] Task tasks.add[82d8c609-2cac-47e8-be20-eb6a2dc502d6] succeeded in 0.0137050151825s: 4
+
+# 有关我自己遇到的问题
+
+## 缺少包
+
+sudo pip install kombu
+
+sudo pip install billiard
+
+sudo pip install pytz
+
