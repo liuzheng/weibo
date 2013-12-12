@@ -72,9 +72,11 @@ sudo apt-get install rabbitmq-server
 在终端中使用如下命令：
 
 > alex@alex-pc:~/test$ celeryd --loglevel=INFO
+>
 > [2011-07-28 23:06:27,226: WARNING/MainProcess]
 > 
 >  -------------- celery@alex-pc v2.2.7
+>
 > ---- **** -----
 > --- * ***  * -- [Configuration]
 > -- * - **** ---   . broker:      amqplib://guest@localhost:5672/
