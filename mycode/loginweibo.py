@@ -12,15 +12,18 @@ import json
 import binascii
 import getpass
 
-# username = 'username'
-# password = 'password'
-username = raw_input("Input the UserName: ").strip()
-password = getpass.getpass("Input the PassWord: ")
-who = raw_input("Who U want to see:(url)").strip()
-if len(re.findall(r'\/', who)) == 0:
-    who = 'http://weibo.com/' + who
-elif len(re.findall(r':', who)) == 0:
-    who = 'http://' + who
+
+def Login():
+    # username = 'username'
+    # password = 'password'
+    username = raw_input("Input the UserName: ").strip()
+    password = getpass.getpass("Input the PassWord: ")
+    who = raw_input("Who U want to see:(url)").strip()
+    if len(re.findall(r'\/', who)) == 0:
+        who = 'http://weibo.com/' + who
+    elif len(re.findall(r':', who)) == 0:
+        who = 'http://' + who
+    return username, password, who
 
 
 def getCookies(username, password):
@@ -64,7 +67,7 @@ def getCookies(username, password):
         'url': 'http://weibo.com/ajaxlogin.php?framelogin=1&\
                 callback=parent.sinaSSOController.feedBackUrlCallBack',
         'returntype': 'META',
-        'rsakv': rsakv,
+        'rsakv': rsakv
         }
     resp = session.post(url_login, data=postdata)
     login_url = re.findall('replace\("(.*)"\)', resp.content)
@@ -76,36 +79,46 @@ def getCookies(username, password):
     else:
         print 'login success!'
         return session
+    session = getCookies(username, password)
+    if session == 0:
+        sys.exit(0)
 
-session = getCookies(username, password)
-if session == 0:
-    sys.exit(0)
 
-# your local page
-#uid = re.findall('"uniqueid":"(\d+)",', resp.content)[0]
-#url = "http://weibo.com/u/"+uid
-#resp = session.get(url)
-#print resp.content
+def PageOne(session, who):
+    # your local page
+    #uid = re.findall('"uniqueid":"(\d+)",', resp.content)[0]
+    #url = "http://weibo.com/u/"+uid
+    #resp = session.get(url)
+    #print resp.content
+    resp = session.get(who)
+    #print resp.content
+    # Save file to index.html
+    #file = open('index.html', 'w')
+    #file.write(resp.content)
+    #file.close()
+    newlink = re.findall(r'PRF\_feed\_list\_more.*?href=\\"(.*?)\\"', resp.content)
+    newlink = newlink[0]
+    tmp = re.findall(r'\\', newlink)
+    for tmp_r in tmp:
+        newlink = newlink.replace(tmp_r, '')
+    newlink = 'http://weibo.com' + newlink
+    resp = session.get(newlink)
+    return resp.content
 
-resp = session.get(who)
-#print resp.content
 
-# Save file to index.html
-#file = open('index.html', 'w')
-#file.write(resp.content)
-#file.close()
+def getPage(session, url):
+    resp = session.get(url)
+    return res.content
 
-newlink = re.findall(r'PRF\_feed\_list\_more.*?href=\\"(.*?)\\"', resp.content)
-newlink = newlink[0]
-tmp = re.findall(r'\\', newlink)
-for tmp_r in tmp:
-    newlink = newlink.replace(tmp_r, '')
-newlink = 'http://weibo.com' + newlink
 
-resp = session.get(newlink)
-#print resp.content
+def main():
+    username, password, who = Login()
+    session = getCookies(username, password)
+    content = PageOne(session, who)
+    # Save file to index.html
+    file = open('index.html', 'w')
+    file.write(content)
+    file.close()
 
-# Save file to index.html
-file = open('index.html', 'w')
-file.write(resp.content)
-file.close()
+if __name__ == "__main__":
+    main()
