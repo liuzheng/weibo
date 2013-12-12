@@ -1,6 +1,7 @@
 Celery+RabbitMQ快速入门
 ======
-[[http://www.zeuux.com/blog/content/3938/][参考链接]]
+[参考链接](http://www.zeuux.com/blog/content/3938/)
+
 本文主要介绍Celery+RabbitMQ的入门知识
 
 Celery 是一个异步任务队列/基于分布式消息传递作业队列，它侧重于实时操作，同样也支持调度
