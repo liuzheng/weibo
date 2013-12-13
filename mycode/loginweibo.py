@@ -39,8 +39,6 @@ def getCookies(username, password):
     su = base64.b64encode(urllib.quote(username))
     # calculate sp
     rsaPublickey = int(pubkey, 16)
-    print pubkey
-    print rsaPublickey
     key = rsa.PublicKey(rsaPublickey, 65537)
     message = str(servertime) + '\t' + str(nonce) + '\n' + str(password)
     sp = binascii.b2a_hex(rsa.encrypt(message, key))
