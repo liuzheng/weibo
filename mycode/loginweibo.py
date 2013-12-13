@@ -18,12 +18,7 @@ def Login():
     # password = 'password'
     username = raw_input("Input the UserName: ").strip()
     password = getpass.getpass("Input the PassWord: ")
-    who = raw_input("Who U want to see:(url)").strip()
-    if len(re.findall(r'\/', who)) == 0:
-        who = 'http://weibo.com/' + who
-    elif len(re.findall(r':', who)) == 0:
-        who = 'http://' + who
-    return username, password, who
+    return username, password
 
 
 def getCookies(username, password):
@@ -44,6 +39,8 @@ def getCookies(username, password):
     su = base64.b64encode(urllib.quote(username))
     # calculate sp
     rsaPublickey = int(pubkey, 16)
+    print pubkey
+    print rsaPublickey
     key = rsa.PublicKey(rsaPublickey, 65537)
     message = str(servertime) + '\t' + str(nonce) + '\n' + str(password)
     sp = binascii.b2a_hex(rsa.encrypt(message, key))
@@ -84,7 +81,12 @@ def getCookies(username, password):
         sys.exit(0)
 
 
-def PageOne(session, who):
+def PageOne(session):
+    who = raw_input("Who U want to see:(url)").strip()
+    if len(re.findall(r'\/', who)) == 0:
+        who = 'http://weibo.com/' + who
+    elif len(re.findall(r':', who)) == 0:
+        who = 'http://' + who
     # your local page
     #uid = re.findall('"uniqueid":"(\d+)",', resp.content)[0]
     #url = "http://weibo.com/u/"+uid
@@ -112,13 +114,20 @@ def getPage(session, url):
 
 
 def main():
-    username, password, who = Login()
+    username, password = Login()
     session = getCookies(username, password)
-    content = PageOne(session, who)
+    content = PageOne(session)
     # Save file to index.html
     file = open('index.html', 'w')
     file.write(content)
     file.close()
+
+
+def help():
+    print "Login():username, password"
+    print "getCookies(username, password):session"
+    print "PageOne(session):weiboPageHTML"
+    print "getPage(session, url):weiboShortPageHTML"
 
 if __name__ == "__main__":
     main()
