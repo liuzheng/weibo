@@ -21,6 +21,11 @@ def Login():
     return username, password
 
 
+def rePasswd():
+    password = getpass.getpass("Input the PassWord: ")
+    return password
+
+
 def getCookies(username, password):
     session = requests.Session()
     url_prelogin = 'http://login.sina.com.cn/sso/prelogin.php?entry=weibo&\
@@ -74,9 +79,6 @@ def getCookies(username, password):
     else:
         print 'login success!'
         return session
-    session = getCookies(username, password)
-    if session == 0:
-        sys.exit(0)
 
 
 def PageOne(session):
@@ -114,6 +116,18 @@ def getPage(session, url):
 def main():
     username, password = Login()
     session = getCookies(username, password)
+    if session == 0:
+        password = rePasswd()
+        session = getCookies(username, password)
+    if session == 0:
+        username, password = Login()
+        session = getCookies(username, password)
+    if session == 0:
+        password = rePasswd()
+        session = getCookies(username, password)
+    if session == 0:
+        print 'Sorry GoodBye~'
+        sys.exit(0)
     content = PageOne(session)
     # Save file to index.html
     file = open('index.html', 'w')
