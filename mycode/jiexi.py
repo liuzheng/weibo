@@ -20,6 +20,11 @@ def detail(content):
     WB_forward = re.findall(r'WB\_text[^>]*>.*?fl_forward.*?>.*?\(([0-9]*)', content)
     WB_mid = re.findall(r' mid=\\"([0-9]*)', content)
     # print it
+    return WB_text, WB_time, WB_comefrom, WB_like, WB_pinlun, WB_forward, WB_mid
+
+
+def showweibo(WB_text, WB_time, WB_comefrom, WB_like, WB_pinlun, WB_forward,
+        WB_mid):
     for i in range(0, len(WB_text)):
         print str(i + 1) + '.' + WB_text[i].lstrip('\\n').strip()
         print 'time:' + WB_time[i]
@@ -28,12 +33,12 @@ def detail(content):
         print 'like:' + WB_like[i]
         print 'forward:' + WB_forward[i]
         print 'pinlun:' + WB_pinlun[i]
-    return WB_text, WB_time, WB_comefrom, WB_like, WB_pinlun, WB_forward, WB_mid
 
 
 def main():
     content = open('index.html').read()
-    detail(content)
+    WB_text, WB_time, WB_comefrom, WB_like, WB_pinlun, WB_forward, WB_mid = detail(content)
+    showweibo(WB_text, WB_time, WB_comefrom, WB_like, WB_pinlun, WB_forward, WB_mid)
 
 if __name__ == '__main__':
     main()

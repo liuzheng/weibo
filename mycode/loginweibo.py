@@ -83,16 +83,18 @@ def getCookies(username, password):
 
 def PageOne(session):
     who = raw_input("Who U want to see:(url)").strip()
-    if len(re.findall(r'\/', who)) == 0:
-        who = 'http://weibo.com/' + who
+    url = who
+    if len(re.findall(r'\/', url)) == 0:
+        url = 'http://weibo.com/' + url
     elif len(re.findall(r':', who)) == 0:
-        who = 'http://' + who
+        url = 'http://' + url
+    who = re.findall(r".*\/(.*)", url)
     # your local page
     #uid = re.findall('"uniqueid":"(\d+)",', resp.content)[0]
     #url = "http://weibo.com/u/"+uid
     #resp = session.get(url)
     #print resp.content
-    resp = session.get(who)
+    resp = session.get(url)
     #print resp.content
     # Save file to index.html
     #file = open('index.html', 'w')
@@ -105,12 +107,13 @@ def PageOne(session):
         newlink = newlink.replace(tmp_r, '')
     newlink = 'http://weibo.com' + newlink
     resp = session.get(newlink)
-    return resp.content
+    return resp.content, who
 
 
 def getPage(session, url):
     resp = session.get(url)
-    return res.content
+    who = re.findall(r".*\/(.*)", url)
+    return res.content, who
 
 
 def main():
@@ -128,7 +131,7 @@ def main():
     if session == 0:
         print 'Sorry GoodBye~'
         sys.exit(0)
-    content = PageOne(session)
+    content, who = PageOne(session)
     # Save file to index.html
     file = open('index.html', 'w')
     file.write(content)
@@ -138,8 +141,8 @@ def main():
 def help():
     print "Login():username, password"
     print "getCookies(username, password):session"
-    print "PageOne(session):weiboPageHTML"
-    print "getPage(session, url):weiboShortPageHTML"
+    print "PageOne(session):weiboPageHTML, who"
+    print "getPage(session, url):weiboShortPageHTML, who"
 
 if __name__ == "__main__":
     main()
