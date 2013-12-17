@@ -26,6 +26,11 @@ def rePasswd():
     return password
 
 
+def getAPI(session, API):
+    json_data = session.get(API)
+    return json_data.content
+
+
 def getCookies(username, password):
     session = requests.Session()
     url_prelogin = 'http://login.sina.com.cn/sso/prelogin.php?entry=weibo&\

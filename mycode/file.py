@@ -16,7 +16,8 @@ def checkdir(path):
 def inputtxt(who, text, time, mid, comefrom, like, forward, pinlun):
     checkdir(Wpath + '/' + who[0])
     file = open(Wpath + '/' + who[0] + '/' + str(mid), 'w')
-    file.write(text[0])
+    for i in range(0,len(text)):
+        file.write(text[i])
     file.write('\n')
     file.write(time)
     file.write('\n')
