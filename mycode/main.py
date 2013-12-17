@@ -9,11 +9,8 @@ import jiexi
 import file
 import re
 
-SinaAPI ='https://api.weibo.com/2/statuses/public_timeline.json?access_token=2.00TGx13BUUHHMD0eb08c47f4Y_n3bE'
 
-#username, passwd = Lwb.Login()
-username = '18721988110'
-passwd = '1148662'
+username, passwd = Lwb.Login()
 session = Lwb.getCookies(username, passwd)
 page, who = Lwb.PageOne(session)
 WB_text, WB_time, WB_comefrom, WB_like, WB_pinlun, WB_forward, WB_mid = jiexi.detail(page)
