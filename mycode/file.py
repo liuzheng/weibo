@@ -9,14 +9,16 @@ import os
 
 Wpath = 'weibo'
 
+
 def checkdir(path):
     if os.path.exists(path) == 0:
         os.mkdir(path)
 
+
 def inputweibo(who, text, time, mid, comefrom, like, forward, pinlun):
     checkdir(Wpath + '/' + who[0])
     file = open(Wpath + '/' + who[0] + '/' + str(mid), 'w')
-    for i in range(0,len(text)):
+    for i in range(0, len(text)):
         file.write(text[i])
     file.write('\n')
     file.write(time)
