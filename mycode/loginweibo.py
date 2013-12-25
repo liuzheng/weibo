@@ -11,6 +11,7 @@ import rsa
 import json
 import binascii
 import getpass
+import persion
 
 
 def Login():
@@ -118,7 +119,18 @@ def PageOne(session):
 def getPage(session, url):
     resp = session.get(url)
     who = re.findall(r".*\/(.*)", url)
-    return res.content, who
+    return resp.content, who
+
+
+def waitlist(session):
+    SinaAPI = 'https://api.weibo.com/2/statuses/public_timeline.json'
+    if len(persion.access_token) == 0:
+        print "you don't have access_token? http://open.weibo.com/"
+    else:
+        text = Lwb.getAPI(session, SinaAPI + '?' + persion.access_token)
+        result = re.findall(r'{"id":([0-9]*)', text)
+        for i in range(0, len(result)):
+            file.inputlist('waitlist', result[i])
 
 
 def main():
