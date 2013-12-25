@@ -13,7 +13,7 @@ def checkdir(path):
     if os.path.exists(path) == 0:
         os.mkdir(path)
 
-def inputtxt(who, text, time, mid, comefrom, like, forward, pinlun):
+def inputweibo(who, text, time, mid, comefrom, like, forward, pinlun):
     checkdir(Wpath + '/' + who[0])
     file = open(Wpath + '/' + who[0] + '/' + str(mid), 'w')
     for i in range(0,len(text)):
@@ -30,6 +30,12 @@ def inputtxt(who, text, time, mid, comefrom, like, forward, pinlun):
     file.write(pinlun)
     file.close()
 
+
+def inputlist(filename, text):
+    file = open(Wpath + '/' + filename, 'a+')
+#    for i in range(0, len(text)):
+    file.write(text)
+    file.write('\n')
 
 checkdir(Wpath)
 
