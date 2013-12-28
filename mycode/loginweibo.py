@@ -12,6 +12,7 @@ import json
 import binascii
 import getpass
 import persion
+import file
 
 
 def Login():
@@ -107,6 +108,9 @@ def PageOne(session):
     #file.write(resp.content)
     #file.close()
     newlink = re.findall(r'PRF\_feed\_list\_more.*?href=\\"(.*?)\\"', resp.content)
+    while len(newlink) == 0:
+        resp = session.get(url)
+        newlink = re.findall(r'PRF\_feed\_list\_more.*?href=\\"(.*?)\\"', resp.content)
     newlink = newlink[0]
     tmp = re.findall(r'\\', newlink)
     for tmp_r in tmp:
@@ -119,6 +123,21 @@ def PageOne(session):
 def getPage(session, url):
     resp = session.get(url)
     who = re.findall(r".*\/(.*)", url)
+    newlink = re.findall(r'PRF\_feed\_list\_more.*?href=\\"(.*?)\\"', resp.content)
+    while len(newlink) == 0:
+        resp = session.get(url)
+        print who,newlink,':while:',len(newlink)
+        fuck = open('fuck','w')
+        fuck.write(resp.content)
+        fuck.close
+        hehe = raw_input()
+        newlink = re.findall(r'PRF\_feed\_list\_more.*?href=\\"(.*?)\\"', resp.content)
+    newlink = newlink[0]
+    tmp = re.findall(r'\\', newlink)
+    for tmp_r in tmp:
+        newlink = newlink.replace(tmp_r, '')
+    newlink = 'http://weibo.com' + newlink
+    resp = session.get(newlink)
     return resp.content, who
 
 
@@ -127,7 +146,7 @@ def waitlist(session):
     if len(persion.access_token) == 0:
         print "you don't have access_token? http://open.weibo.com/"
     else:
-        text = Lwb.getAPI(session, SinaAPI + '?' + persion.access_token)
+        text = getAPI(session, SinaAPI + '?' + persion.access_token)
         result = re.findall(r'{"id":([0-9]*)', text)
         for i in range(0, len(result)):
             file.inputlist('waitlist', result[i])
