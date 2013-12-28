@@ -17,7 +17,7 @@ def write(session, who):
     for i in range(0, len(WB_text)):
         file.inputweibo(who, WB_text[i], WB_time[i], WB_mid[i],
                 WB_comefrom[i], WB_like[i], WB_forward[i], WB_pinlun[i])
-    print 'Success!'
+    print time.time() , ':Success!:' , who
 
 if len(persion.usename) == 0:
     username, passwd = Lwb.Login()
@@ -36,7 +36,14 @@ def print_event(name):
     print 'EVENT:', time.time(), name
 
 print 'START:', time.time()
+ff = open(file.Wpath + '/' + 'waitlist', 'r')
 for i in range(1, 86400):
-    scheduler.enter(i, 1, write, (session, 'kaifulee'))
+    who = ff.readline().strip().lstrip()
+    if len(who) == 0:
+        continue
+    if who == 'end':
+        break
+    scheduler.enter(i, 1, write, (session, who))
+
 
 scheduler.run()
