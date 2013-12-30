@@ -92,7 +92,7 @@ def PageOne(session):
     who = raw_input("Who U want to see:(url)").strip()
     url = who
     if len(re.findall(r'\/', url)) == 0:
-        url = 'http://weibo.com/' + url
+        url = 'http://weibo.com/u/' + url
     elif len(re.findall(r':', who)) == 0:
         url = 'http://' + url
     who = re.findall(r".*\/(.*)", url)
@@ -125,12 +125,13 @@ def getPage(session, url):
     who = re.findall(r".*\/(.*)", url)
     newlink = re.findall(r'PRF\_feed\_list\_more.*?href=\\"(.*?)\\"', resp.content)
     while len(newlink) == 0:
+        session = getCookies(persion.usename, persion.passwd)
         resp = session.get(url)
-        print who,newlink,':while:',len(newlink)
-        fuck = open('fuck','w')
-        fuck.write(resp.content)
-        fuck.close
-        hehe = raw_input()
+        print time.time(),':Failure!:',who
+        #fuck = open('fuck','w')
+        #fuck.write(resp.content)
+        #fuck.close
+        #hehe = raw_input()
         newlink = re.findall(r'PRF\_feed\_list\_more.*?href=\\"(.*?)\\"', resp.content)
     newlink = newlink[0]
     tmp = re.findall(r'\\', newlink)
