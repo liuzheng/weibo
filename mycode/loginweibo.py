@@ -109,6 +109,7 @@ def PageOne(session):
     #file.close()
     newlink = re.findall(r'PRF\_feed\_list\_more.*?href=\\"(.*?)\\"', resp.content)
     while len(newlink) == 0:
+        session = getCookies(persion.usename, persion.passwd)
         resp = session.get(url)
         newlink = re.findall(r'PRF\_feed\_list\_more.*?href=\\"(.*?)\\"', resp.content)
     newlink = newlink[0]
