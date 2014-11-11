@@ -1,7 +1,9 @@
 weibo
 =====
 
-不打算维护自己之前那个了，有需要网上找其他的办法吧，或者使用 ./mycode/weibo_login.py 
+发现有人fork了，把文件重新整理了一下，方便使用，主要看Lweibo.py
+
+Lweibo.py 提供了API方式和模拟登录的方式，如有问题email我吧
 
 利用python实现对新浪微博的抓取
 
