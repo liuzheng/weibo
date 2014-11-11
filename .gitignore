@@ -43,6 +43,6 @@ nosetests.xml
 weibo
 *.swo
 persion.py
-config.ini
+config.ini.*
 *.pkl
 .idea/*
