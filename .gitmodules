@@ -4,9 +4,9 @@
 [submodule "API/weibo"]
 	path = API/weibo
 	url = https://github.com/lxyu/weibo.git
-[submodule "simu/weibo_login"]
-	path = simu/weibo_login
-	url = https://github.com/yoyzhou/weibo_login.git
 [submodule "happybase"]
 	path = happybase
 	url = https://github.com/wbolster/happybase.git
+[submodule "API/weibo_login"]
+	path = API/weibo_login
+	url = git@github.com:liuzheng712/weibo_login.git
