@@ -9,4 +9,4 @@
 	url = https://github.com/wbolster/happybase.git
 [submodule "API/weibo_login"]
 	path = API/weibo_login
-	url = git@github.com:liuzheng712/weibo_login.git
+	url = https://github.com/liuzheng712/weibo_login.git
