@@ -98,18 +98,18 @@ class simu(object):
         # })
         user = []
         for WB in WB_single:
-            WB_text = ''.join(re.findall(r"WB\_text[^>]*>(.*?)<\\/div", WB)).lstrip('\\n').strip()
-            # WB_time = ''.join(re.findall(r'WB\_text[^>]*>.*?date=\\"([0-9]*)', WB))
-            WB_source = ''.join(re.findall(r'WB\_text[^>]*>.*?nofollow\\">(.*?)<', WB))
-            WB_forward = ''.join(re.findall(r'收藏 (\d*)', WB))
-            WB_pinlun = ''.join(re.findall(r'评论 (\d*)', WB))
-            WB_count = ''.join(re.findall(r'转发 (\d*)', WB))
-            WB_like = ''.join(re.findall(r'WB\_text[^>]*>.*?praised.*?\(([0-9]*)', WB))
+            WB_text = ''.join(re.findall(r"WB\_text[^>]*>(.*?)<\\/div", WB)).replace('\\n','').replace('\\"','"').replace('\\/','/').strip()#.lstrip('\\n').strip()
+            # if WB_text inclued WB_media_expand is miniPage !!!!!!
+            WB_source = ''.join(re.findall(r'WB\_text[^>]*>.*nofollow\\">(.*?)<', WB)) # checked
+            WB_forward = re.findall(r'收藏.*?(\d+)', WB)[-1] # checked
+            WB_pinlun = re.findall(r'评论.*?(\d+)', WB)[-1] # checked
+            WB_count = re.findall(r'转发.*?(\d+)', WB)[-1] # checked
+            WB_like = ''.join(re.findall(r'WB\_text[^>]*>.*praised.*?\(([0-9]*)', WB))# checked
             # WB_mid = ''.join(re.findall(r' mid=\\"([0-9]*)', WB))
-            WB_wid = ''.join(re.findall(r'mid=(\d*).*转发', WB))
+            WB_wid = re.findall(r'mid=(\d*).*?转发', WB)[-1] # checked
             WB_name = ''.join(re.findall(r'nick-name=\\"([^"]*)\\"', WB))
-            WB_uid = ''.join(re.findall(r'fuid=([^"]*)\\"', WB))
-            WB_timestamp = ''.join(re.findall(r'date=\\"([^"]*)\\"', WB))
+            WB_uid = ''.join(re.findall(r'fuid=([^"]*)\\"', WB)) # checked
+            WB_timestamp = re.findall(r'date=\\"([^"]*)\\"', WB)[-1] # checked
             user.append({'text': WB_text, 'count': WB_count,'wid':WB_wid,'name':WB_name,
                          'uid':WB_uid,'nick':WB_name,'self':'dontknow','timestamp':WB_timestamp,'source':WB_source,
                          'location':'null','country_code': '','province_code': 'null', 'city_code': 'null', 'geo': 'null',
