@@ -341,13 +341,12 @@ class useAPI(object):
                 print "The token file error"
         return False
 
-    def token(self,CODE=''):
+    def token(self, CODE=''):
         client, url = self.getCODE()
         if self.checked == False:
-            if CODE=='':
-                # webbrowser.open_new(url)
-                # CODE = raw_input("Please Input the Code: ").strip()
-                print 'raw_input'
+            if CODE == '':
+                webbrowser.open_new(url)
+                CODE = raw_input("Please Input the Code: ").strip()
             try:
                 client.set_code(CODE)
             except:
@@ -367,12 +366,12 @@ class useAPI(object):
         return client.authorize_url
 
     def get(self, url, count=100):
-        if self.checked==False:
+        if self.checked == False:
             self.token()
         return self.api.get(url, count=count)
 
     def post(self, url):
-        if self.checked==False:
+        if self.checked == False:
             self.token()
         return self.api.post(url)
 
