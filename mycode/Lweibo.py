@@ -320,14 +320,14 @@ class useAPI(object):
     def __init__(self):
         config = ConfigParser.ConfigParser()
         config.read(os.path.join(os.path.dirname(__file__), 'config.ini').replace('\\', '/'))
-        APP_KEY = config.get('APPKEY', 'APP_KEY')
-        APP_SECRET = config.get('APPKEY', 'APP_SECRET')
-        CALLBACK_URL = config.get('APPKEY', 'CALLBACK_URL')
+        self.APP_KEY = config.get('APPKEY', 'APP_KEY')
+        self.APP_SECRET = config.get('APPKEY', 'APP_SECRET')
+        self.CALLBACK_URL = config.get('APPKEY', 'CALLBACK_URL')
         token_file = os.path.join(os.path.dirname(__file__), 'token.pkl').replace('\\', '/')
         if os.path.isfile(token_file):
             try:
                 token = pkl.load(open(token_file, 'r'))
-                api = Client(APP_KEY, APP_SECRET, CALLBACK_URL, token)
+                api = Client(self.APP_KEY, self.APP_SECRET, self.CALLBACK_URL, token)
                 try:
                     api.get('statuses/user_timeline')
                     self.api = api
@@ -336,8 +336,8 @@ class useAPI(object):
                     print "token maybe out of time!"
             except:
                 print "The token file error"
-        client = Client(APP_KEY, APP_SECRET, CALLBACK_URL)
-        url = client.authorize_url
+
+        client, url = self.getCODE()
         webbrowser.open_new(url)
         CODE = raw_input("Please Input the Code: ").strip()
         try:
@@ -347,14 +347,21 @@ class useAPI(object):
             return
         token = client.token
         pkl.dump(token, file('token.pkl', 'w'))
-        self.api = Client(APP_KEY, APP_SECRET, CALLBACK_URL, token)
+        self.api = Client(self.APP_KEY, self.APP_SECRET, self.CALLBACK_URL, token)
 
-    def get(self, url):
-        return self.api.get(url)
+    def getCODE(self):
+        client = Client(self.APP_KEY, self.APP_SECRET, self.CALLBACK_URL)
+        return client, client.authorize_url
+
+    def getURL(self):
+        client = Client(self.APP_KEY, self.APP_SECRET, self.CALLBACK_URL)
+        return client.authorize_url
+
+    def get(self, url,count=100):
+        return self.api.get(url,count=count)
 
     def post(self, url):
         return self.api.post(url)
-
 
 
 class simu(object):
@@ -368,6 +375,7 @@ class simu(object):
 
     def detail(self, url):
         return jiexi(self.simu.getHTML(url))
+
 
 def dataToUser(data):
     user = []
@@ -390,6 +398,7 @@ def dataToUser(data):
              'link': u['user']['id']
             })
     return user
+
 
 def jiexi(content):
     tmp = re.findall(r'pl\.content\.homeFeed\.index.*html\":\"(.*)\"}\)', content)
