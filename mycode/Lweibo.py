@@ -323,31 +323,40 @@ class useAPI(object):
         self.APP_KEY = config.get('APPKEY', 'APP_KEY')
         self.APP_SECRET = config.get('APPKEY', 'APP_SECRET')
         self.CALLBACK_URL = config.get('APPKEY', 'CALLBACK_URL')
-        token_file = os.path.join(os.path.dirname(__file__), 'token.pkl').replace('\\', '/')
-        if os.path.isfile(token_file):
+        self.token_file = os.path.join(os.path.dirname(__file__), 'token.pkl').replace('\\', '/')
+        self.checked = self.check()
+
+    def check(self):
+        if os.path.isfile(self.token_file):
             try:
-                token = pkl.load(open(token_file, 'r'))
+                token = pkl.load(open(self.token_file, 'r'))
                 api = Client(self.APP_KEY, self.APP_SECRET, self.CALLBACK_URL, token)
                 try:
                     api.get('statuses/user_timeline')
                     self.api = api
-                    return
+                    return True
                 except:
                     print "token maybe out of time!"
             except:
                 print "The token file error"
+        return False
 
+    def token(self,CODE=''):
         client, url = self.getCODE()
-        webbrowser.open_new(url)
-        CODE = raw_input("Please Input the Code: ").strip()
-        try:
-            client.set_code(CODE)
-        except:
-            print "Maybe wrong CODE"
-            return
+        if self.checked == False:
+            if CODE=='':
+                # webbrowser.open_new(url)
+                # CODE = raw_input("Please Input the Code: ").strip()
+                print 'raw_input'
+            try:
+                client.set_code(CODE)
+            except:
+                print "Maybe wrong CODE"
+                return
         token = client.token
-        pkl.dump(token, file('token.pkl', 'w'))
+        pkl.dump(token, file(self.token_file, 'w'))
         self.api = Client(self.APP_KEY, self.APP_SECRET, self.CALLBACK_URL, token)
+        self.checked = True
 
     def getCODE(self):
         client = Client(self.APP_KEY, self.APP_SECRET, self.CALLBACK_URL)
@@ -357,10 +366,14 @@ class useAPI(object):
         client = Client(self.APP_KEY, self.APP_SECRET, self.CALLBACK_URL)
         return client.authorize_url
 
-    def get(self, url,count=100):
-        return self.api.get(url,count=count)
+    def get(self, url, count=100):
+        if self.checked==False:
+            self.token()
+        return self.api.get(url, count=count)
 
     def post(self, url):
+        if self.checked==False:
+            self.token()
         return self.api.post(url)
 
 
