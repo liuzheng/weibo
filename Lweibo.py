@@ -152,7 +152,7 @@ class weibo_login(object):
         """
         Perform prelogin action, get prelogin status, including servertime, nonce, rsakv, etc.
         """
-        #prelogin_url = 'http://login.sina.com.cn/sso/prelogin.php?entry=weibo&callback=sinaSSOController.preloginCallBack&client=ssologin.js(v1.4.5)'
+        # prelogin_url = 'http://login.sina.com.cn/sso/prelogin.php?entry=weibo&callback=sinaSSOController.preloginCallBack&client=ssologin.js(v1.4.5)'
         prelogin_url = 'http://login.sina.com.cn/sso/prelogin.php?entry=weibo&callback=sinaSSOController.preloginCallBack&su=' + self.get_user(
             username) + \
                        '&rsakt=mod&checkpin=1&client=ssologin.js(v1.4.11)';
@@ -177,7 +177,7 @@ class weibo_login(object):
             (1) If cookie file exists then try to load cookies;
             (2) If no cookies found then do login
         """
-        #If cookie file exists then try to load cookies
+        # If cookie file exists then try to load cookies
         if os.path.exists(cookie_file):
             try:
                 cookie_jar = cookielib.LWPCookieJar(cookie_file)
@@ -208,7 +208,7 @@ class weibo_login(object):
         @param pwd: login password
         @param cookie_file: file name where to save cookies when login succeeded
         """
-        #POST data per LOGIN WEIBO, these fields can be captured using httpfox extension in FIrefox
+        # POST data per LOGIN WEIBO, these fields can be captured using httpfox extension in FIrefox
         login_data = {
             'entry': 'weibo',
             'gateway': '1',
@@ -293,7 +293,7 @@ class weibo_login(object):
             Get rsa2 encrypted password, using RSA module from https://pypi.python.org/pypi/rsa/3.1.1, documents can be accessed at
             http://stuvel.eu/files/python-rsa-doc/index.html
         """
-        #n, n parameter of RSA public key, which is published by WEIBO.COM
+        # n, n parameter of RSA public key, which is published by WEIBO.COM
         #hardcoded here but you can also find it from values return from prelogin status above
         weibo_rsa_n = 'EB2A38568661887FA180BDDB5CABD5F21C7BFD59C090CB2D245A87AC253062882729293E5506350508E7F9AA3BB77F4333231490F915F6D63C55FE2F08A49B353F444AD3993CACC02DB784ABBB8E42A9B1BBFFFB38BE18D78E87A0E41B9B8F73A928EE0CCEE1F6739884B9777E4FE9E88A1BBE495927AC4A799B3181D6442443'
 
@@ -370,10 +370,10 @@ class useAPI(object):
             self.token()
         return self.api.get(url, count=count)
 
-    def post(self, url):
+    def post(self, url, **kwargs):
         if self.checked == False:
             self.token()
-        return self.api.post(url)
+        return self.api.post(url, **kwargs)
 
 
 class simu(object):
@@ -394,7 +394,7 @@ def dataToUser(data):
     for u in data:
         user.append(
             # {'text': 微博信息内容, 'count': 转发数, 'wid': 微博ID, 'name': 微博作者的用户信息字段, 'uid': 用户UID,
-            #  'nick': 用户昵称, 'self': u['self'], 'timestamp': 微博创建时间, 'source': 微博来源,
+            # 'nick': 用户昵称, 'self': u['self'], 'timestamp': 微博创建时间, 'source': 微博来源,
             #  'location': 用户所在地, 'country_code': u['country_code'],
             #  'province_code': 用户所在省级ID, 'city_code': 用户所在城市ID, 'geo': 地理信息字段,
             #  'emotionurl': u['emotionurl'], 'emotiontype': u['emotiontype']
@@ -415,7 +415,7 @@ def dataToUser(data):
 def jiexi(content):
     tmp = re.findall(r'pl\.content\.homeFeed\.index.*html\":\"(.*)\"}\)', content)
     # for tmp_r in tmp:
-    #     content = content.replace(tmp_r, 's')
+    # content = content.replace(tmp_r, 's')
     max = 0
     for i in tmp:
         if max < len(i):

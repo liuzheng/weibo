@@ -46,3 +46,4 @@ persion.py
 config.ini.*
 *.pkl
 .idea/*
+*.ini
