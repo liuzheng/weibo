@@ -8,14 +8,23 @@ __author__ = 'liuzheng'
 import os
 import sys
 import re
-import ConfigParser
+try:
+    import ConfigParser
+except:
+    import configparser as ConfigParser
 import webbrowser
 import json
 import time
 import urllib
-import urllib2
+try:
+    import urllib2
+except:
+    import urllib.request as urllib2
 import requests
-import cookielib
+try:
+    import cookielib
+except:
+    import http.cookiejar as cookielib
 import hashlib
 import binascii
 import rsa
@@ -167,7 +176,7 @@ class weibo_login(object):
             rsakv = data['rsakv']
             return servertime, nonce, rsakv
         except:
-            print 'Getting prelogin status met error!'
+            print('Getting prelogin status met error!')
             return None
 
 
@@ -185,14 +194,14 @@ class weibo_login(object):
                 loaded = 1
             except cookielib.LoadError:
                 loaded = 0
-                print 'Loading cookies error'
+                print('Loading cookies error')
 
             #install loaded cookies for urllib2
             if loaded:
                 cookie_support = urllib2.HTTPCookieProcessor(cookie_jar)
                 opener = urllib2.build_opener(cookie_support, urllib2.HTTPHandler)
                 urllib2.install_opener(opener)
-                print 'Loading cookies success'
+                print('Loading cookies success')
                 return 1
             else:
                 return self.do_login(username, pwd, cookie_file)
@@ -241,7 +250,7 @@ class weibo_login(object):
             return
 
         #Fill POST data
-        print 'starting to set login_data'
+        print('starting to set login_data')
         login_data['servertime'] = servertime
         login_data['nonce'] = nonce
         login_data['su'] = self.get_user(username)
@@ -336,9 +345,9 @@ class useAPI(object):
                     self.api = api
                     return True
                 except:
-                    print "token maybe out of time!"
+                    print("token maybe out of time!")
             except:
-                print "The token file error"
+                print("The token file error")
         return False
 
     def token(self, CODE=''):
@@ -350,7 +359,7 @@ class useAPI(object):
             try:
                 client.set_code(CODE)
             except:
-                print "Maybe wrong CODE"
+                print("Maybe wrong CODE")
                 return
         token = client.token
         pkl.dump(token, file(self.token_file, 'w'))
@@ -413,7 +422,12 @@ def dataToUser(data):
 
 
 def jiexi(content):
-    tmp = re.findall(r'pl\.content\.homeFeed\.index.*html\":\"(.*)\"}\)', content)
+    try:
+        # for python2.x
+        tmp = re.findall(r'pl\.content\.homeFeed\.index.*html\":\"(.*)\"}\)', content)
+    except:
+        # for python3.x
+        tmp = re.findall(r'pl\.content\.homeFeed\.index.*html\":\"(.*)\"}\)', content.decode('utf8'))
     # for tmp_r in tmp:
     # content = content.replace(tmp_r, 's')
     max = 0
@@ -466,12 +480,12 @@ def jiexi(content):
 
 if __name__ == '__main__':
     # api = useAPI()
-    # print api.get('statuses/user_timeline')
+    # print(api.get('statuses/user_timeline'))
     # config = ConfigParser.ConfigParser()
     # config.read(os.path.join(os.path.dirname(__file__), 'config.ini').replace('\\', '/'))
     # username = config.get('simu', 'username')
     # pwd = config.get('simu', 'pwd')
     # html = weibo_login(username, pwd)
-    # print html.getHTML('http://www.weibo.com/kaifulee')
+    # print(html.getHTML('http://www.weibo.com/kaifulee'))
     aa = simu()
-    print aa.detail('http://weibo.com/kaifulee')
+    print(aa.detail('http://weibo.com/kaifulee'))
