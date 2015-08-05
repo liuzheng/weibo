@@ -70,8 +70,13 @@ class Client(object):
             'client_id': self.client_id,
             'redirect_uri': self.redirect_uri
         }
+        try:
+            # for python2.x
+            urlencode = urllib.urlencode(params)
+        except:
+            urlencode = urllib.parse.urlencode(params)
         return "{0}?{1}".format(
-            self.authorization_url, urllib.urlencode(params))
+            self.authorization_url, urlencode)
 
     @property
     def alive(self):
@@ -355,14 +360,19 @@ class useAPI(object):
         if self.checked == False:
             if CODE == '':
                 webbrowser.open_new(url)
-                CODE = raw_input("Please Input the Code: ").strip()
+                try:
+                    # for python2.x
+                    CODE = raw_input("Please Input the Code: ").strip()
+                except:
+                    # for python3.x
+                    CODE = input("Please Input the Code: ").strip()
             try:
                 client.set_code(CODE)
             except:
                 print("Maybe wrong CODE")
                 return
         token = client.token
-        pkl.dump(token, file(self.token_file, 'w'))
+        pkl.dump(token, open(str(self.token_file), 'wb'))
         self.api = Client(self.APP_KEY, self.APP_SECRET, self.CALLBACK_URL, token)
         self.checked = True
 
