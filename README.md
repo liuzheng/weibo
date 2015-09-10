@@ -1,6 +1,8 @@
 weibo
 =====
 
+hash: 40d19b233ec1ffcd5168114ad48c03b2
+
 为方便使用合并各种文件到Lweibo.py，并且支持Python3，完全不懂的小白请修改config.ini后打开example.py按需运行，运行抓取任务时请下载完全整个文件，不要就下载一个py文件问为什么出错
 
 关于出现`RuntimeError: 20019 repeat content!` 问题是新浪最近的小动作，抓取间隔过小会抛错，这个我没办法破
