@@ -359,6 +359,7 @@ class useAPI(object):
         client, url = self.getCODE()
         if self.checked == False:
             if CODE == '':
+                print("Open your brower with this url: " + url)
                 webbrowser.open_new(url)
                 try:
                     # for python2.x
